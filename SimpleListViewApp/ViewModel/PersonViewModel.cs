@@ -13,10 +13,12 @@ namespace SimpleListViewApp.ViewModel
 {
     class PersonViewModel : INotifyPropertyChanged
     {
+        private CarViewModel carViewModel;
         public PersonViewModel()
         {
             Person = new Person() { FirstName = "Ruth", FamilyName = "Cohen" };
             Persons = new ObservableCollection<Person>();
+            carViewModel = new CarViewModel();
         }
 
         // data from model pathing to view, through viewModel
@@ -43,6 +45,30 @@ namespace SimpleListViewApp.ViewModel
                 }
                 return _submitCommand;
             }
+        }
+
+        private ICommand _clearCommand;
+        
+        public ICommand ClearCommand
+        {
+            get
+            {
+                if (_clearCommand == null)
+                {
+                    _clearCommand = new RelayCommand(ClearPersonsList, CanClearList, false);
+                }
+                return _clearCommand;
+            }
+        }
+
+        private bool CanClearList(object arg)
+        {
+            return Persons.Count == 0 ? false : true;
+        }
+
+        private void ClearPersonsList(object obj)
+        {
+            Persons.Clear();
         }
 
         private bool CanSubmitExecute(object arg)

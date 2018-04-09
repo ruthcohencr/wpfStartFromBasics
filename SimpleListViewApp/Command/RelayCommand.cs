@@ -9,7 +9,7 @@ namespace SimpleListViewApp.Command
 {
     public class RelayCommand : ICommand
     {
-        Action<Object> executeAction;
+        private readonly Action<Object> executeAction;
         Func<object, bool> canExecute;
         bool canExecuteCache;
 
@@ -32,6 +32,7 @@ namespace SimpleListViewApp.Command
             }
         }
 
+        //  invoked when CommandManager.RequerySuggested event is raises
         public bool CanExecute(object parameter)
         {
             if (canExecute == null)
@@ -44,6 +45,7 @@ namespace SimpleListViewApp.Command
             }
         }
 
+        // invocation of command
         public void Execute(object parameter)
         {
             executeAction(parameter);
